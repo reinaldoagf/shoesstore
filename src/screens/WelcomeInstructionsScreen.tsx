@@ -55,14 +55,12 @@ export default function WelcomeInstructionsScreen() {
         infoViewRef.current?.fadeInDown(-800);
       });
     } else {
-      console.log("else")
       setCurrentUser({...currentUser, showTutorial: false})
-      /* setProfile({ ...profile, is_new: false }) */
     }
   };
 
   const handleSkip = () => {
-    console.log("handleSkip")
+    setCurrentUser({...currentUser, showTutorial: false})
   };
 
   return (
