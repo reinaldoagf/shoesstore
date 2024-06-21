@@ -4,7 +4,7 @@
  */
 
 const mainColor = '#6c60c4';
-const secondColor = '#ff8462';
+const secondColor = '#3b5998';
 const whiteColor = '#fff';
 /* const secondColor = '#fff'; */
 
