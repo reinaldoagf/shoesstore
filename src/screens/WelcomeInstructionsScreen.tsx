@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, Platform } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
-/* import { Shadow } from 'react-native-shadow-2';  */
 import { Dots } from '../components/Dots';
+import { useUserStore } from '../store/userStore';
 
 const steps = [
   {
@@ -32,6 +32,14 @@ const steps = [
 ];
 
 export default function WelcomeInstructionsScreen() {
+  const {
+    currentUser,
+    setCurrentUser,
+  } = useUserStore((state:any) => ({
+    currentUser: state.currentUser,
+    setCurrentUser: state.setCurrentUser,
+  }));
+
   const stepViewRef = useRef(null);
   const infoViewRef = useRef(null);
 
@@ -48,6 +56,7 @@ export default function WelcomeInstructionsScreen() {
       });
     } else {
       console.log("else")
+      setCurrentUser({...currentUser, showTutorial: false})
       /* setProfile({ ...profile, is_new: false }) */
     }
   };
@@ -106,7 +115,7 @@ export default function WelcomeInstructionsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: 20
+    paddingVertical: Platform.OS === 'android' ? 20 : 30 
   },
   title: {
     fontFamily: 'Anton',
