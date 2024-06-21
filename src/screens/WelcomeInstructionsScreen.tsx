@@ -47,12 +47,12 @@ export default function WelcomeInstructionsScreen() {
 
   const handleNext = () => {
     if (currentStep < steps.length - 1) {
+      setCurrentStep(currentStep + 1);
       stepViewRef.current?.fadeOutRight(300).then(() => {
-        setCurrentStep(currentStep + 1);
         stepViewRef.current?.fadeInLeft(300);
       });
-      infoViewRef.current?.fadeInUp(300).then(() => {
-        infoViewRef.current?.fadeInDown(300);
+      infoViewRef.current?.fadeInUp(800).then(() => {
+        infoViewRef.current?.fadeInDown(-800);
       });
     } else {
       console.log("else")
@@ -115,7 +115,8 @@ export default function WelcomeInstructionsScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingVertical: Platform.OS === 'android' ? 20 : 30 
+    paddingVertical: Platform.OS === 'android' ? 10 : 20,
+    paddingBottom: Platform.OS === 'android' ? 10 : 30 
   },
   title: {
     fontFamily: 'Anton',
@@ -126,8 +127,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   logo: {
-    width: 100,
-    height: 50,
+    width: 80,
+    height: 80,
   },
   logoLetter: {
     width: 350,

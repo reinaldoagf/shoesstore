@@ -1,18 +1,24 @@
-import React from 'react';
-import HomeScreen from './src/screens/HomeScreen';
+import React, { useRef } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import SidebarLayout from './src/layouts/SidebarLayout';
 import WelcomeInstructionsScreen from './src/screens/WelcomeInstructionsScreen';
 import { useUserStore } from './src/store/userStore';
 
 export default function App() {
   const {
     currentUser,
-  } = useUserStore((state:any) => ({
+  } = useUserStore((state: any) => ({
     currentUser: state.currentUser,
   }));
+
+  const navigationRef = useRef(null);
+
   return (
-    currentUser.showTutorial ? 
-      <WelcomeInstructionsScreen /> : 
-      <HomeScreen />
+    <NavigationContainer ref={navigationRef}>
+      {
+        currentUser.showTutorial ? <WelcomeInstructionsScreen /> : <SidebarLayout />
+      }
+    </NavigationContainer>
   );
 }
 

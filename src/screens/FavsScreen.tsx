@@ -1,14 +1,13 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function ExploreScreen() {
+export default function FavsScreen() {
   return (
     <View style={styles.container}>
-      <Text>ExploreScreen</Text>
+      <Text>FavsScreen</Text>
     </View>
   )
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
