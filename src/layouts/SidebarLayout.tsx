@@ -6,7 +6,7 @@ import { Colors } from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
 import TabLayout from './TabLayout';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Platform, StyleSheet, View, Text, Image } from 'react-native'; // Importa Image y StyleSheet
+import { Platform, StyleSheet, View, Text, Image, StatusBar } from 'react-native'; // Importa Image y StyleSheet
 
 const Drawer = createDrawerNavigator();
 
@@ -36,7 +36,7 @@ export default function SidebarLayout() {
             <View style={styles.headerImageContainer}>
               <Image
                 source={require('../../assets/nike.png')}
-                style={styles.headerImage} // Aplica estilos personalizados
+                style={[styles.headerImage, {marginTop: StatusBar.currentHeight}]} // Aplica estilos personalizados
               />
             </View>
           ),
@@ -47,6 +47,7 @@ export default function SidebarLayout() {
           headerRight: () => (
             <TouchableOpacity onPress={() => {
               console.log("headerRight")
+              console.log('statusBarHeight: ', StatusBar.currentHeight);
             }}>
               <View style={styles.cartProducts}><Text style={styles.cartProductsNumber}>1</Text></View>              
               <Ionicons name="cart-outline" size={25} color={Colors.light.mainColor} />
@@ -65,9 +66,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerImage: {
-    marginTop: Platform.OS === 'android' ? 10 : 40,
     width: 80,
-    height: 80,
+    height: 50,
   },
   cartProducts: {
     backgroundColor: 'red',
