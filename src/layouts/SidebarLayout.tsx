@@ -6,12 +6,19 @@ import { Colors } from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
 import TabLayout from './TabLayout';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Platform, StyleSheet, View, Text, Image, StatusBar } from 'react-native'; // Importa Image y StyleSheet
+import { StyleSheet, View, Text, Image, StatusBar } from 'react-native'; // Importa Image y StyleSheet
+import { useShoppingCartStore } from '../store/shoppingCartStore';
 
 const Drawer = createDrawerNavigator();
 
 export default function SidebarLayout() {
   const colorScheme = useColorScheme();
+
+  const {
+    shoppingCart,
+  } = useShoppingCartStore((state: any) => ({
+    shoppingCart: state.shoppingCart,
+  }));
 
   return (
     <Drawer.Navigator
@@ -36,7 +43,7 @@ export default function SidebarLayout() {
             <View style={styles.headerImageContainer}>
               <Image
                 source={require('../../assets/nike.png')}
-                style={[styles.headerImage, {marginTop: StatusBar.currentHeight}]} // Aplica estilos personalizados
+                style={[styles.headerImage, { marginTop: StatusBar.currentHeight }]} // Aplica estilos personalizados
               />
             </View>
           ),
@@ -49,7 +56,11 @@ export default function SidebarLayout() {
               console.log("headerRight")
               console.log('statusBarHeight: ', StatusBar.currentHeight);
             }}>
-              <View style={styles.cartProducts}><Text style={styles.cartProductsNumber}>1</Text></View>              
+              <View style={styles.cartProducts}>
+                <Text style={styles.cartProductsNumber}>
+                  {shoppingCart.length}
+                </Text>
+              </View>
               <Ionicons name="cart-outline" size={25} color={Colors.light.mainColor} />
             </TouchableOpacity>
           ),
