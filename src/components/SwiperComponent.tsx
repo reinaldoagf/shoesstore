@@ -8,11 +8,11 @@ import { useProductStore } from '../store/productStore';
 
 export const SwiperComponent = () => {
   const {
-      products,
-      updateProduct,
-  } = useProductStore((state:any) => ({
-      products: state.products,
-      updateProduct: state.updateProduct,
+    products,
+    updateProduct,
+  } = useProductStore((state: any) => ({
+    products: state.products,
+    updateProduct: state.updateProduct,
   }));
 
   const carouselRef = useRef(null);
@@ -71,8 +71,8 @@ export const SwiperComponent = () => {
     });
   };
 
-  const handleLikeToggle = (item: any) => { 
-    updateProduct(item.id, {...item, liked: !item.liked});
+  const handleLikeToggle = (item: any) => {
+    updateProduct(item.id, { ...item, liked: !item.liked });
   }
 
   return (
@@ -95,61 +95,65 @@ export const SwiperComponent = () => {
           });
 
           return (
-            <View key={index} style={styles.pageStyle}>
-              <Animated.View // Vista animada que cambiará su opacidad
-                style={[
-                  styles.priceContainer,
-                  {
-                    opacity: animValues[index].opacity, // Vincula el valor animado a la opacidad
-                  },
-                ]}
-              >
-                <Text style={styles.priceText}>
-                  ${item.price}
-                </Text>{/* Caja que se desvanece */}
-              </Animated.View>
-              {item.image && (
-                <Animated.Image
-                  source={item.image}
+
+            <TouchableOpacity key={index} onPress={() => { console.log({ item }) }}>
+              <View style={styles.pageStyle}>
+
+                <Animated.View // Vista animada que cambiará su opacidad
                   style={[
+                    styles.priceContainer,
                     {
-                      transform: [
-                        { translateY: animValues[index].translateY },
-                        { translateX: animValues[index].translateX },
-                        { rotate: rotateInterpolation }, // Aplicar la rotación interpolada
-                      ],
+                      opacity: animValues[index].opacity, // Vincula el valor animado a la opacidad
                     },
                   ]}
-                />
-              )}
-              <Animated.View // Vista animada que cambiará su opacidad
-                style={[
-                  styles.infoContainer,
-                  {
-                    opacity: animValues[index].opacity, // Vincula el valor animado a la opacidad
-                  },
-                ]}
-              >
-                <View>
-                  <Text style={styles.infoTitle}>
-                    {item.title}
-                  </Text>
-                  <Text style={styles.infoDescription}>
-                    {item.description}
-                  </Text>
-                </View>
-                <View>
-                  <TouchableOpacity onPress={() => { handleLikeToggle(item) }}>
-                    <TabBarIcon 
-                      size={35} 
-                      name={item.liked ? 'heart' : 'heart-outline'} 
-                      color={'red'} 
-                      style={{ marginBottom: 0 }} 
-                    />
-                  </TouchableOpacity>
-                </View>
-              </Animated.View>
-            </View>
+                >
+                  <Text style={styles.priceText}>
+                    ${item.price.toFixed(2)}
+                  </Text>{/* Caja que se desvanece */}
+                </Animated.View>
+                {item.image && (
+                  <Animated.Image
+                    source={item.image}
+                    style={[
+                      {
+                        transform: [
+                          { translateY: animValues[index].translateY },
+                          { translateX: animValues[index].translateX },
+                          { rotate: rotateInterpolation }, // Aplicar la rotación interpolada
+                        ],
+                      },
+                    ]}
+                  />
+                )}
+                <Animated.View // Vista animada que cambiará su opacidad
+                  style={[
+                    styles.infoContainer,
+                    {
+                      opacity: animValues[index].opacity, // Vincula el valor animado a la opacidad
+                    },
+                  ]}
+                >
+                  <View>
+                    <Text style={styles.infoTitle}>
+                      {item.title}
+                    </Text>
+                    <Text style={styles.infoDescription}>
+                      {item.description}
+                    </Text>
+                  </View>
+                  <View>
+                    <TouchableOpacity onPress={() => { handleLikeToggle(item) }}>
+                      <TabBarIcon
+                        size={35}
+                        name={item.liked ? 'heart' : 'heart-outline'}
+                        color={'red'}
+                        style={{ marginBottom: 0 }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </Animated.View>
+              </View>
+            </TouchableOpacity>
           );
         })}
       </CarouselPager>
