@@ -8,9 +8,11 @@ import { useProductStore } from '../store/productStore';
 
 export const SwiperComponent = () => {
   const {
+    setCurrentProduct,
     products,
     updateProduct,
   } = useProductStore((state: any) => ({
+    setCurrentProduct: state.setCurrentProduct,
     products: state.products,
     updateProduct: state.updateProduct,
   }));
@@ -75,6 +77,10 @@ export const SwiperComponent = () => {
     updateProduct(item.id, { ...item, liked: !item.liked });
   }
 
+  const handleSelectProduct = (item: any) => {
+    setCurrentProduct(item);
+  }
+
   return (
     <View style={styles.container}>
       <CarouselPager
@@ -95,8 +101,7 @@ export const SwiperComponent = () => {
           });
 
           return (
-
-            <TouchableOpacity key={index} onPress={() => { console.log({ item }) }}>
+            <TouchableOpacity key={index} onPress={() => { handleSelectProduct(item) }}>
               <View style={styles.pageStyle}>
 
                 <Animated.View // Vista animada que cambiará su opacidad

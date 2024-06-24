@@ -4,6 +4,13 @@ import { TabBarIcon } from './TabBarIcon';
 import { useProductStore } from '../store/productStore';
 
 export function GridItem({ item, numColumns }: { item: any, numColumns: number }) {
+    const {
+      setCurrentProduct,
+      updateProduct,
+    } = useProductStore((state: any) => ({
+      setCurrentProduct: state.setCurrentProduct,
+      updateProduct: state.updateProduct,
+    }));
 
     // Obtén las dimensiones de la pantalla
     const { width } = Dimensions.get('window');
@@ -11,16 +18,18 @@ export function GridItem({ item, numColumns }: { item: any, numColumns: number }
     // Calcula el ancho del item
     const itemWidth = (width - (numColumns + 1) * 10) / numColumns;
     const itemHeight = 200; // Altura deseada para cada item
-    // Obtén los productos favoritos del store
-    const updateProduct = useProductStore((state) =>
-      state.updateProduct
-    );
+
     const handleLikeToggle = (item: any) => {
       updateProduct(item.id, { ...item, liked: !item.liked });
     }
+
+    const handleSelectProduct = (item: any) => {
+        setCurrentProduct(item);
+    }
+
     return (
         <>
-            <TouchableOpacity onPress={() => { console.log({ item }) }}>
+            <TouchableOpacity onPress={() => { handleSelectProduct(item) }}>
                 <View style={[styles.productContainer, { width: itemWidth, height: itemHeight }]}>
                     <View style={styles.productPriceContainer}>
                         <Text style={styles.productPriceText}>

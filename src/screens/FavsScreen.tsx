@@ -13,12 +13,22 @@ export default function FavsScreen() {
   const updateProduct = useProductStore((state) =>
     state.updateProduct
   );
+  
+  const setCurrentProduct = useProductStore((state) =>
+    state.setCurrentProduct
+  );
+
   const handleLikeToggle = (item: any) => {
     updateProduct(item.id, { ...item, liked: !item.liked });
   }
+
+  const handleSelectProduct = (item: any) => {
+      setCurrentProduct(item);
+  }
+
   const renderProductItem = ({ item }: { item: any }) => {
     return (
-      <TouchableOpacity onPress={() => { console.log({item}) }}>
+      <TouchableOpacity onPress={() => { handleSelectProduct(item) }}>
         <View style={styles.productContainer}>
           <Image source={item.image} style={styles.productImage} />
           <View style={styles.productDetails}>
