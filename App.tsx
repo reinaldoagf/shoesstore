@@ -5,6 +5,8 @@ import WelcomeInstructionsScreen from './src/screens/WelcomeInstructionsScreen';
 import ProductDetailScreen from './src/screens/ProductDetailScreen';
 import { useUserStore } from './src/store/userStore';
 import { useProductStore } from './src/store/productStore';
+import { ShoppingCartModal } from './src/components/ShoppingCartModal';
+import Toast from 'react-native-toast-message';
 
 export default function App() {
   const {
@@ -23,15 +25,19 @@ export default function App() {
 
   return (
     <NavigationContainer ref={navigationRef}>
-      {
-        currentUser.showTutorial ? 
-        <WelcomeInstructionsScreen /> : 
-        ( 
-          currentProduct ? 
-          <ProductDetailScreen /> : 
-          <SidebarLayout />
-        )        
-      }
+      {currentUser.showTutorial ? (
+        <WelcomeInstructionsScreen />
+      ) : (
+        <>
+          {currentProduct ? (
+            <ProductDetailScreen />
+          ) : (
+            <SidebarLayout />
+          )}
+          <ShoppingCartModal />
+          <Toast />
+        </>
+      )}
     </NavigationContainer>
   );
 }

@@ -16,8 +16,10 @@ export default function SidebarLayout() {
 
   const {
     shoppingCart,
+    setIsModalVisible,
   } = useShoppingCartStore((state: any) => ({
     shoppingCart: state.shoppingCart,
+    setIsModalVisible: state.setIsModalVisible,
   }));
 
   return (
@@ -53,8 +55,7 @@ export default function SidebarLayout() {
           },
           headerRight: () => (
             <TouchableOpacity onPress={() => {
-              console.log("headerRight")
-              console.log('statusBarHeight: ', StatusBar.currentHeight);
+              setIsModalVisible(true)
             }}>
               <View style={styles.cartProducts}>
                 <Text style={styles.cartProductsNumber}>

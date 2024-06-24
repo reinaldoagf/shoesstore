@@ -8,23 +8,27 @@ const steps = [
     {
         image: require("../../assets/shoes/airmax270-1.png"),
         color: "#b1baee",
+        price: 40.5,
         title: "Nike Air Max 270",
         description: "Nike womens Moderns"
     },
     {
         image: require("../../assets/shoes/junipertrail-2.png"),
         color: "#f88268",
+        price: 50.5,
         title: "Nike Juniper Trail",
         description: "Zapatillas de trail running - Hombre"
     },
     {
         image: require("../../assets/shoes/streakfly-1.png"),
         color: "#caeb7e",
+        price: 45.5,
         title: "Nike Streakfly",
         description: "Zapatillas de competición para asfalto"
     }, {
         image: require("../../assets/shoes/zoomfly-1.png"),
         color: "#ff4583",
+        price: 65.0,
         title: "Nike Zoom Fly 3",
         description: "Amortiguación de la puntera al talón"
     },

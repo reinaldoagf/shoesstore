@@ -20,9 +20,11 @@ export default function ProductDetailScreen() {
   const {
     shoppingCart,
     addItem,
+    setIsModalVisible,
   } = useShoppingCartStore((state: any) => ({
     shoppingCart: state.shoppingCart,
     addItem: state.addItem,
+    setIsModalVisible: state.setIsModalVisible,
   }));
 
   const productViewRef = useRef(null);
@@ -81,7 +83,6 @@ export default function ProductDetailScreen() {
 
   const handleAddToShoppingCart = (item: any) => {
     const size = sizes.find(e => e.selected) ? sizes.find(e => e.selected) : null
-    console.log({...item, size: size ? size.number : 9})
     addItem({...item, size: size ? size.number : 9})
   }
 
@@ -117,7 +118,7 @@ export default function ProductDetailScreen() {
           </View>
           <View style={styles.headerRight}>
             <TouchableOpacity onPress={() => {
-              console.log("show cart")
+              setIsModalVisible(true)             
             }}>
               <View style={styles.cartProducts}>
                 <Text style={styles.cartProductsNumber}>
