@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { StyleSheet, View, Text, Image, TouchableOpacity, Platform, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
@@ -16,6 +16,7 @@ export default function ProductDetailScreen() {
     setCurrentProduct: state.setCurrentProduct,
     getProductById: state.getProductById,
   }));
+
   const {
     shoppingCart,
     addItem,
@@ -27,15 +28,46 @@ export default function ProductDetailScreen() {
   const productViewRef = useRef(null);
   const infoViewRef = useRef(null);
 
+  const [sizes, setSizes] = useState([{
+    number: 9,
+    selected: true
+  },{
+    number: 9.5,
+    selected: false
+  },{
+    number: 10,
+    selected: false
+  },{
+    number: 10.5,
+    selected: false
+  }]);
+
+  const handleSelectSize = (item: any) => {
+    setSizes([...sizes.map(e => {
+      return {...e, selected: e.number == item.number}
+    })])
+  }
+
   const handleSelectProduct = (item: any) => {
     const product = getProductById(item.id)
     setCurrentProduct(product);
   }
 
+  const renderSizeItem = (element: any) => {
+    return <TouchableOpacity
+      onPress={() => { handleSelectSize(element.item) }}>
+      <View style={[styles.sizeItem, {
+        backgroundColor: element.item.selected ? "#000" : "gray" 
+      }]}>
+        <Text style={{color: "#fff"}}>{element.item.number}</Text>
+      </View>
+    </TouchableOpacity>
+  };
+
   const renderColorItem = (element: any) => {
     return <TouchableOpacity
       onPress={() => { handleSelectProduct(element.item) }}>
-      <View style={[styles.dot, { backgroundColor: element.item.color }]}></View></TouchableOpacity>
+      <View style={[styles.colorItem, { backgroundColor: element.item.color }]}></View></TouchableOpacity>
   };
 
   const startAnimation = () => {
@@ -48,7 +80,9 @@ export default function ProductDetailScreen() {
   };
 
   const handleAddToShoppingCart = (item: any) => {
-    addItem(item)
+    const size = sizes.find(e => e.selected) ? sizes.find(e => e.selected) : null
+    console.log({...item, size: size ? size.number : 9})
+    addItem({...item, size: size ? size.number : 9})
   }
 
   useEffect(() => {
@@ -116,6 +150,17 @@ export default function ProductDetailScreen() {
             }
           </Animatable.View>
         </View>
+      </View>
+      <View style={styles.sideContainer}>
+        <Text style={styles.sizeTitle}>
+          Size
+        </Text>
+        <FlatList
+          data={sizes}
+          renderItem={renderSizeItem}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.listContainer}
+        />
       </View>
       <View style={styles.footerContainer}>
         <View style={styles.productPriceContainer}>
@@ -284,7 +329,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1
   },
-  dot: {
+  colorItem: {
     width: 20,
     height: 20,
     borderRadius: 100,
@@ -293,5 +338,23 @@ const styles = StyleSheet.create({
   listContainer: {
     width: '100%',
     justifyContent: 'center', // Alinea el contenido en el centro
+  },
+  sideContainer: {
+    position: 'absolute',
+    right: 10, 
+    bottom: 80
+  },
+  sizeTitle: {
+    textAlign: 'center',
+    fontWeight: 'bold',
+    marginBottom: 8
+  },
+  sizeItem: {
+    width: 35,
+    height: 35,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 8,
+    marginBottom: 5
   },
 });
