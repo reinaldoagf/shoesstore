@@ -2,12 +2,12 @@
 
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity } from 'react-native';
-import { useProductStore } from '../store/productStore'; // Importa tu store de Zustand
+import { useProductStore } from '../store/productStore'; 
 import { TabBarIcon } from '../components/TabBarIcon';
 
 export default function FavsScreen() {
   // Obtén los productos favoritos del store
-  const favoritePosts = useProductStore((state) =>
+  const favoriteProducts = useProductStore((state) =>
     state.products.filter((product) => product.liked)
   );
   const updateProduct = useProductStore((state) =>
@@ -16,7 +16,7 @@ export default function FavsScreen() {
   const handleLikeToggle = (item: any) => {
     updateProduct(item.id, { ...item, liked: !item.liked });
   }
-  const renderPostItem = ({ item }: { item: any }) => {
+  const renderProductItem = ({ item }: { item: any }) => {
     return (
       <TouchableOpacity onPress={() => { console.log({item}) }}>
         <View style={styles.productContainer}>
@@ -44,12 +44,12 @@ export default function FavsScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Favoritos.</Text>
-      {favoritePosts.length === 0 ? (
+      {favoriteProducts.length === 0 ? (
         <Text style={styles.noFavoritesText}>No hay products favoritos.</Text>
       ) : (
         <FlatList
-          data={favoritePosts}
-          renderItem={renderPostItem}
+          data={favoriteProducts}
+          renderItem={renderProductItem}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.listContainer}
         />

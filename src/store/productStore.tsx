@@ -9,7 +9,7 @@ export const useProductStore = create<ProductState>((set) => ({
           price: 10.9,
           title: "Nike Air Max 270",
           description: "Nike womens Moderns",
-          liked: true
+          liked: false
         },
         {
           id: "2",
@@ -30,6 +30,30 @@ export const useProductStore = create<ProductState>((set) => ({
         {
           id: "4",
           image: require("../../assets/shoes/zoomfly-1.png"),
+          price: 40.5,
+          title: "Nike Zoom Fly 3",
+          description: "Amortiguación de la puntera al talón",
+          liked: false
+        },
+        {
+          id: "5",
+          image: require("../../assets/shoes/zoomfly-2.png"),
+          price: 40.5,
+          title: "Nike Zoom Fly 3",
+          description: "Amortiguación de la puntera al talón",
+          liked: false
+        },
+        {
+          id: "6",
+          image: require("../../assets/shoes/zoomfly-3.png"),
+          price: 40.5,
+          title: "Nike Zoom Fly 3",
+          description: "Amortiguación de la puntera al talón",
+          liked: false
+        },
+        {
+          id: "7",
+          image: require("../../assets/shoes/zoomfly-4.png"),
           price: 40.5,
           title: "Nike Zoom Fly 3",
           description: "Amortiguación de la puntera al talón",
