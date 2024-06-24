@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { StyleSheet, View, Text, Image, TouchableOpacity, Platform } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { StyleSheet, View, Text, Image, TouchableOpacity, Platform, FlatList } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as Animatable from 'react-native-animatable';
 import { useProductStore } from '../store/productStore';
@@ -9,10 +9,12 @@ import { TabBarIcon } from '../components/TabBarIcon';
 export default function ProductDetailScreen() {
   const {
     currentProduct,
-    setCurrentProduct
+    setCurrentProduct,
+    getProductById
   } = useProductStore((state: any) => ({
     currentProduct: state.currentProduct,
     setCurrentProduct: state.setCurrentProduct,
+    getProductById: state.getProductById,
   }));
   const {
     shoppingCart,
@@ -22,10 +24,19 @@ export default function ProductDetailScreen() {
     addItem: state.addItem,
   }));
 
-
-
   const productViewRef = useRef(null);
   const infoViewRef = useRef(null);
+
+  const handleSelectProduct = (item: any) => {
+    const product = getProductById(item.id)
+    setCurrentProduct(product);
+  }
+
+  const renderColorItem = (element: any) => {
+    return <TouchableOpacity
+      onPress={() => { handleSelectProduct(element.item) }}>
+      <View style={[styles.dot, { backgroundColor: element.item.color }]}></View></TouchableOpacity>
+  };
 
   const startAnimation = () => {
     productViewRef.current?.fadeOutRight(300).then(() => {
@@ -35,13 +46,14 @@ export default function ProductDetailScreen() {
       infoViewRef.current?.fadeInDown(-800);
     });
   };
+
   const handleAddToShoppingCart = (item: any) => {
     addItem(item)
   }
 
   useEffect(() => {
     startAnimation();
-  }, []);
+  }, [currentProduct]);
 
   return (
     <LinearGradient
@@ -114,18 +126,26 @@ export default function ProductDetailScreen() {
             Price
           </Text>
         </View>
+        <View style={styles.productColorsContainer}>
+          <FlatList
+            horizontal={true}
+            data={currentProduct.colors}
+            renderItem={renderColorItem}
+            keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.listContainer}
+          />
+        </View>
         <View style={styles.productActionsContainer}>
           <TouchableOpacity
             style={styles.addToCart}
             onPress={() => { handleAddToShoppingCart(currentProduct) }}>
             <Text style={styles.addToCartText}>Add to cart</Text>
-            
             <TabBarIcon
-                size={25}
-                name={'cart'}
-                color={'#fff'}
-                style={{ marginBottom: 0 }}
-              />
+              size={25}
+              name={'cart'}
+              color={'#fff'}
+              style={{ marginBottom: 0 }}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -185,7 +205,7 @@ const styles = StyleSheet.create({
   productDescription: {
     fontSize: 16,
     textAlign: 'center',
-  },  
+  },
   image: {
     width: 400,
     height: 220,
@@ -205,10 +225,11 @@ const styles = StyleSheet.create({
     left: 0,
     backgroundColor: '#002446',
     padding: 10,
-    paddingRight: 30,
     borderTopRightRadius: 20,
     height: 50,
+    width: 120,
     justifyContent: 'center',
+    flex: 1
   },
   productPriceText: {
     color: '#fff',
@@ -220,16 +241,21 @@ const styles = StyleSheet.create({
     fontSize: 20
   },
   productActionsContainer: {
-    paddingHorizontal: 10
+    flex: 1
   },
   addToCart: {
-    padding: 5,
-    flexDirection: 'row',
+    bottom: 0,
+    left: 0,
+    padding: 10,
+    borderTopLeftRadius: 20,
+    height: 50,
+    width: "100%",
     justifyContent: 'center',
+    flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#ff8462',
-    borderRadius: 5,
-    gap: 10
+    gap: 5,
+
   },
   addToCartText: {
     color: '#fff',
@@ -251,5 +277,21 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 10,
     fontWeight: 'bold',
+  },
+  productColorsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flex: 1
+  },
+  dot: {
+    width: 20,
+    height: 20,
+    borderRadius: 100,
+    margin: 5
+  },
+  listContainer: {
+    width: '100%',
+    justifyContent: 'center', // Alinea el contenido en el centro
   },
 });

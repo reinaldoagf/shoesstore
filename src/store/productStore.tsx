@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { ProductState } from '../interfaces/productState';
 
-export const useProductStore = create<ProductState>((set) => ({
+export const useProductStore = create<ProductState>((set, get) => ({
   currentProduct: null,
   products: [
     {
@@ -11,7 +11,8 @@ export const useProductStore = create<ProductState>((set) => ({
       color: "#b1baee",
       title: "Nike Air Max 270",
       description: "Nike womens Moderns",
-      liked: false
+      liked: false,
+      colors: []
     },
     {
       id: "2",
@@ -20,7 +21,8 @@ export const useProductStore = create<ProductState>((set) => ({
       color: "#f88268",
       title: "Nike Juniper Trail",
       description: "Zapatillas de trail running - Hombre",
-      liked: false
+      liked: false,
+      colors: []
     },
     {
       id: "3",
@@ -29,7 +31,8 @@ export const useProductStore = create<ProductState>((set) => ({
       color: "#caeb7e",
       title: "Nike Streakfly",
       description: "Zapatillas de competición para asfalto",
-      liked: false
+      liked: false,
+      colors: []
     },
     {
       id: "4",
@@ -38,7 +41,17 @@ export const useProductStore = create<ProductState>((set) => ({
       color: "#ff4583",
       title: "Nike Zoom Fly 3",
       description: "Amortiguación de la puntera al talón",
-      liked: false
+      liked: false,
+      colors: [{
+        id: "5",
+        color: "#ec83ab",
+      },{
+        id: "6",
+        color: "#00b2a4",
+      },{
+        id: "7",
+        color: "#f0a5d2",
+      }],
     },
     {
       id: "5",
@@ -47,7 +60,17 @@ export const useProductStore = create<ProductState>((set) => ({
       color: "#ec83ab",
       title: "Nike Zoom Fly 3",
       description: "Amortiguación de la puntera al talón",
-      liked: false
+      liked: false,
+      colors: [{
+        id: "4",
+        color: "#ff4583",
+      },{
+        id: "6",
+        color: "#00b2a4",
+      },{
+        id: "7",
+        color: "#f0a5d2",
+      }]
     },
     {
       id: "6",
@@ -56,7 +79,17 @@ export const useProductStore = create<ProductState>((set) => ({
       color: "#00b2a4",
       title: "Nike Zoom Fly 3",
       description: "Amortiguación de la puntera al talón",
-      liked: false
+      liked: false,
+      colors: [{
+        id: "5",
+        color: "#ec83ab",
+      },{
+        id: "4",
+        color: "#ff4583",
+      },{
+        id: "7",
+        color: "#f0a5d2",
+      }]
     },
     {
       id: "7",
@@ -65,7 +98,17 @@ export const useProductStore = create<ProductState>((set) => ({
       color: "#f0a5d2",
       title: "Nike Zoom Fly 3",
       description: "Amortiguación de la puntera al talón",
-      liked: false
+      liked: false,
+      colors: [{
+        id: "5",
+        color: "#ec83ab",
+      },{
+        id: "4",
+        color: "#ff4583",
+      },{
+        id: "6",
+        color: "#00b2a4",
+      }]
     },
   ],
   setCurrentProduct: (value: any) => set({ currentProduct: value }),
@@ -74,4 +117,8 @@ export const useProductStore = create<ProductState>((set) => ({
       product.id === id ? { ...product, ...value } : product
     ),
   })),
+  getProductById: (id: string) => {
+    const products = get().products; // Obtén los productos del estado actual
+    return products.find((product) => product.id === id); // Busca el producto por ID
+  }
 }));

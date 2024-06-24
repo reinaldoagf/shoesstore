@@ -3,4 +3,5 @@ export interface ProductState {
     products: any[];
     setCurrentProduct: (value: any) => void;
     updateProduct: (id: number, value: any) => void;
+    getProductById: (id: string) => void;
 }

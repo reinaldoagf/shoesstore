@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, StyleSheet, TouchableOpacity, Image, Dimensions, Text } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 import { GridItem } from '../components/GridItem';
 import { useProductStore } from '../store/productStore';
 
