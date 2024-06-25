@@ -1,17 +1,26 @@
 // SidebarLayout.tsx
 import React from 'react';
+import { StyleSheet, View, Text, Image, StatusBar,Platform } from 'react-native'; 
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from '../constants/Colors';
 import { useColorScheme } from '../hooks/useColorScheme';
 import TabLayout from './TabLayout';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Platform, StyleSheet, View, Text, Image } from 'react-native'; // Importa Image y StyleSheet
+import { useShoppingCartStore } from '../store/shoppingCartStore';
 
 const Drawer = createDrawerNavigator();
 
 export default function SidebarLayout() {
   const colorScheme = useColorScheme();
+
+  const {
+    shoppingCart,
+    setIsModalVisible,
+  } = useShoppingCartStore((state: any) => ({
+    shoppingCart: state.shoppingCart,
+    setIsModalVisible: state.setIsModalVisible,
+  }));
 
   return (
     <Drawer.Navigator
@@ -32,11 +41,14 @@ export default function SidebarLayout() {
           drawerLabel: 'Inicio',
           headerShown: true,
           headerTitle: '',
+          headerBackgroundContainerStyle: {
+            backgroundColor: 'white', // Cambia el color de fondo del drawer
+          },
           headerBackground: () => (
             <View style={styles.headerImageContainer}>
               <Image
                 source={require('../../assets/nike.png')}
-                style={styles.headerImage} // Aplica estilos personalizados
+                style={[styles.headerImage, { marginTop: Platform.OS === 'android' ? 0 : 50  }]} // Aplica estilos personalizados
               />
             </View>
           ),
@@ -46,9 +58,13 @@ export default function SidebarLayout() {
           },
           headerRight: () => (
             <TouchableOpacity onPress={() => {
-              console.log("headerRight")
+              setIsModalVisible(true)
             }}>
-              <View style={styles.cartProducts}><Text style={styles.cartProductsNumber}>1</Text></View>              
+              <View style={styles.cartProducts}>
+                <Text style={styles.cartProductsNumber}>
+                  {shoppingCart.length}
+                </Text>
+              </View>
               <Ionicons name="cart-outline" size={25} color={Colors.light.mainColor} />
             </TouchableOpacity>
           ),
@@ -65,9 +81,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   headerImage: {
-    marginTop: Platform.OS === 'android' ? 10 : 40,
     width: 80,
-    height: 80,
+    height: 50,
   },
   cartProducts: {
     backgroundColor: 'red',
