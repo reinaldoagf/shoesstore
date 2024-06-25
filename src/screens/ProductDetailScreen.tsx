@@ -93,7 +93,7 @@ export default function ProductDetailScreen() {
 
   return (
     <>
-    <StatusBar backgroundColor={currentProduct.color} />
+    <StatusBar backgroundColor={currentProduct.color} barStyle={'light-content'}/>
     <SafeAreaView style={{flex: 1, backgroundColor: currentProduct.color  }}>
       <LinearGradient
         // Background Linear Gradient

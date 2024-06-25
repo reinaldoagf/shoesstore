@@ -51,7 +51,7 @@ export default function FavsScreen() {
   };
 
   return (<>
-    <StatusBar backgroundColor={"#fff"} />
+    <StatusBar backgroundColor={"#fff"} barStyle={'light-content'}/>
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <View style={styles.container}>
         <Text style={styles.title}>Favoritos.</Text>

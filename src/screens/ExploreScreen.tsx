@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, FlatList, StyleSheet, SafeAreaView } from 'react-native';
+import { View, FlatList, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { GridItem } from '../components/GridItem';
 import { useProductStore } from '../store/productStore';
 
@@ -15,7 +15,8 @@ export default function ExploreScreen() {
     );
   };
 
-  return (<>
+  return (<> 
+    <StatusBar backgroundColor={"#fff"} barStyle={'light-content'}/>
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
 
       <View style={styles.container}>
