@@ -16,7 +16,7 @@ export default function ExploreScreen() {
   };
 
   return (<> 
-    <StatusBar backgroundColor={"#fff"} barStyle={'light-content'}/>
+    <StatusBar barStyle={'dark-content'}/>
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
 
       <View style={styles.container}>

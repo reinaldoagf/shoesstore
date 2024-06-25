@@ -32,15 +32,19 @@ export default function ProductDetailScreen() {
   const infoViewRef = useRef(null);
 
   const [sizes, setSizes] = useState([{
+    id: '1',
     number: 9,
     selected: true
   }, {
+    id: '2',
     number: 9.5,
     selected: false
   }, {
+    id: '3',
     number: 10,
     selected: false
   }, {
+    id: '4',
     number: 10.5,
     selected: false
   }]);
@@ -93,7 +97,7 @@ export default function ProductDetailScreen() {
 
   return (
     <>
-    <StatusBar backgroundColor={currentProduct.color} barStyle={'light-content'}/>
+    <StatusBar backgroundColor={currentProduct.color} barStyle={'dark-content'}/>
     <SafeAreaView style={{flex: 1, backgroundColor: currentProduct.color  }}>
       <LinearGradient
         // Background Linear Gradient

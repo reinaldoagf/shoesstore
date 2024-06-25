@@ -8,7 +8,7 @@ import { SwiperComponent } from '../components/SwiperComponent';
 export default function HomeScreen() {
 
   return (<>
-    <StatusBar backgroundColor={"#fff"} barStyle={'light-content'}/>
+    <StatusBar backgroundColor={"#fff"} barStyle={'dark-content'}/>
     <SafeAreaView style={{flex: 1, backgroundColor: "#fff"}}>
     <View style={[styles.container]}>
       <View style={styles.header}>
