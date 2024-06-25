@@ -30,7 +30,7 @@ export const useProductStore = create<ProductState>((set, get) => ({
       price: 20.5,
       color: "#caeb7e",
       title: "Nike Streakfly",
-      description: "Zapatillas de competición para asfalto",
+      description: "Zapatillas de competición",
       liked: false,
       colors: []
     },

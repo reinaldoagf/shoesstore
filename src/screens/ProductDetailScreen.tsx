@@ -11,11 +11,13 @@ export default function ProductDetailScreen() {
   const {
     currentProduct,
     setCurrentProduct,
-    getProductById
+    getProductById,
+    updateProduct,
   } = useProductStore((state: any) => ({
     currentProduct: state.currentProduct,
     setCurrentProduct: state.setCurrentProduct,
     getProductById: state.getProductById,
+    updateProduct: state.updateProduct,
   }));
 
   const {
@@ -48,6 +50,11 @@ export default function ProductDetailScreen() {
     number: 10.5,
     selected: false
   }]);
+
+  const handleLikeToggle = (item: any) => {
+    setCurrentProduct({ ...item, liked: !item.liked })
+    updateProduct(item.id, { ...item, liked: !item.liked });
+  }
 
   const handleSelectSize = (item: any) => {
     setSizes([...sizes.map(e => {
@@ -97,112 +104,126 @@ export default function ProductDetailScreen() {
 
   return (
     <>
-    <StatusBar backgroundColor={currentProduct.color} barStyle={'dark-content'}/>
-    <SafeAreaView style={{flex: 1, backgroundColor: currentProduct.color  }}>
-      <LinearGradient
-        // Background Linear Gradient
-        style={styles.container}
-        colors={[currentProduct.color, '#fff']}
-      >
-        <View style={styles.container}>
-          <View style={styles.headerContainer}>
-            <View style={styles.headerLeft}>
-              <TouchableOpacity onPress={() => {
-                setCurrentProduct(null)
-              }}>
+      <StatusBar backgroundColor={currentProduct.color} barStyle={'dark-content'} />
+      <SafeAreaView style={{ flex: 1, backgroundColor: currentProduct.color }}>
+        <LinearGradient
+          // Background Linear Gradient
+          style={styles.container}
+          colors={[currentProduct.color, '#fff']}
+        >
+          <View style={styles.container}>
+            <View style={styles.headerContainer}>
+              <View style={styles.headerLeft}>
+                <TouchableOpacity onPress={() => {
+                  setCurrentProduct(null)
+                }}>
+                  <TabBarIcon
+                    size={25}
+                    name={'arrow-back-outline'}
+                    color={'#000'}
+                    style={{ marginBottom: 0 }}
+                  />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.logoContainer}>
+                <Image source={require("../../assets/nike.png")} style={styles.logo} />
+              </View>
+              <View style={styles.headerRight}>
+                <TouchableOpacity onPress={() => {
+                  setIsModalVisible(true)
+                }}>
+                  <View style={styles.cartProducts}>
+                    <Text style={styles.cartProductsNumber}>
+                      {shoppingCart.length}
+                    </Text>
+                  </View>
+                  <TabBarIcon name="cart-outline" size={25} color={"#000"} />
+                </TouchableOpacity>
+              </View>
+            </View>
+            <View style={styles.productContainer} >
+              <Animatable.View ref={infoViewRef} style={styles.productInfo} animation="fadeInUp">
+                <View style={styles.productInfoContent}>
+                  <Text style={styles.productTitle}>{currentProduct.title}</Text>
+                  {
+                    currentProduct.description && (
+                      <Text style={styles.productDescription}>{currentProduct.description}</Text>
+                    )
+                  }
+                </View>
+                <Image source={require("../../assets/nike-letter.png")} style={[styles.logoLetter, styles.productInfoContent]} />
+              </Animatable.View>
+              <Animatable.View ref={productViewRef} animation="fadeInLeft">
+                {
+                  currentProduct.image && (
+                    <View>
+                      <Image source={currentProduct.image} style={styles.image} />
+                    </View>
+                  )
+                }
+              </Animatable.View>
+            </View>
+          </View>
+          <View style={styles.sideContainer}>
+            <TouchableOpacity onPress={() => { handleLikeToggle(currentProduct) }}>
+              <Text style={[styles.likeTitle,{color: currentProduct.liked ? 'red' : 'gray'}]}>
+                Like
+              </Text>
+              <TabBarIcon
+                size={35}
+                name={currentProduct.liked ? 'heart' : 'heart-outline'}
+                color={currentProduct.liked ? 'red' : 'gray'}
+                style={{ marginBottom: 0 }}
+              />
+            </TouchableOpacity>
+            <View>
+
+            <Text style={styles.sizeTitle}>
+              Size
+            </Text>
+            <FlatList
+              data={sizes}
+              renderItem={renderSizeItem}
+              keyExtractor={(item) => item.id}
+              contentContainerStyle={styles.listContainer}
+            />
+            </View>
+          </View>
+          <View style={styles.footerContainer}>
+            <View style={styles.productPriceContainer}>
+              <Text style={styles.productPriceTextQuantity}>
+                ${currentProduct.price.toFixed(2)}
+              </Text>
+              <Text style={styles.productPriceText}>
+                Price
+              </Text>
+            </View>
+            <View style={styles.productColorsContainer}>
+              <FlatList
+                horizontal={true}
+                data={currentProduct.colors}
+                renderItem={renderColorItem}
+                keyExtractor={(item) => item.id}
+                contentContainerStyle={styles.listContainer}
+              />
+            </View>
+            <View style={styles.productActionsContainer}>
+              <TouchableOpacity
+                style={styles.addToCart}
+                onPress={() => { handleAddToShoppingCart(currentProduct) }}>
+                <Text style={styles.addToCartText}>Add to cart</Text>
                 <TabBarIcon
                   size={25}
-                  name={'arrow-back-outline'}
-                  color={'#000'}
+                  name={'cart'}
+                  color={'#fff'}
                   style={{ marginBottom: 0 }}
                 />
               </TouchableOpacity>
             </View>
-            <View style={styles.logoContainer}>
-              <Image source={require("../../assets/nike.png")} style={styles.logo} />
-            </View>
-            <View style={styles.headerRight}>
-              <TouchableOpacity onPress={() => {
-                setIsModalVisible(true)
-              }}>
-                <View style={styles.cartProducts}>
-                  <Text style={styles.cartProductsNumber}>
-                    {shoppingCart.length}
-                  </Text>
-                </View>
-                <TabBarIcon name="cart-outline" size={25} color={"#000"} />
-              </TouchableOpacity>
-            </View>
           </View>
-          <View style={styles.productContainer} >
-            <Animatable.View ref={infoViewRef} style={styles.productInfo} animation="fadeInUp">
-              <View style={styles.productInfoContent}>
-                <Text style={styles.productTitle}>{currentProduct.title}</Text>
-                {
-                  currentProduct.description && (
-                    <Text style={styles.productDescription}>{currentProduct.description}</Text>
-                  )
-                }
-              </View>
-              <Image source={require("../../assets/nike-letter.png")} style={[styles.logoLetter, styles.productInfoContent]} />
-            </Animatable.View>
-            <Animatable.View ref={productViewRef} animation="fadeInLeft">
-              {
-                currentProduct.image && (
-                  <View>
-                    <Image source={currentProduct.image} style={styles.image} />
-                  </View>
-                )
-              }
-            </Animatable.View>
-          </View>
-        </View>
-        <View style={styles.sideContainer}>
-          <Text style={styles.sizeTitle}>
-            Size
-          </Text>
-          <FlatList
-            data={sizes}
-            renderItem={renderSizeItem}
-            keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.listContainer}
-          />
-        </View>
-        <View style={styles.footerContainer}>
-          <View style={styles.productPriceContainer}>
-            <Text style={styles.productPriceTextQuantity}>
-              ${currentProduct.price.toFixed(2)}
-            </Text>
-            <Text style={styles.productPriceText}>
-              Price
-            </Text>
-          </View>
-          <View style={styles.productColorsContainer}>
-            <FlatList
-              horizontal={true}
-              data={currentProduct.colors}
-              renderItem={renderColorItem}
-              keyExtractor={(item) => item.id}
-              contentContainerStyle={styles.listContainer}
-            />
-          </View>
-          <View style={styles.productActionsContainer}>
-            <TouchableOpacity
-              style={styles.addToCart}
-              onPress={() => { handleAddToShoppingCart(currentProduct) }}>
-              <Text style={styles.addToCartText}>Add to cart</Text>
-              <TabBarIcon
-                size={25}
-                name={'cart'}
-                color={'#fff'}
-                style={{ marginBottom: 0 }}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
-      </LinearGradient>
-    </SafeAreaView>
-    <SafeAreaView style={{flex: 0, backgroundColor: '#fff'}}/>
+        </LinearGradient>
+      </SafeAreaView>
+      <SafeAreaView style={{ flex: 0, backgroundColor: '#fff' }} />
     </>
   )
 }
@@ -351,7 +372,12 @@ const styles = StyleSheet.create({
   sideContainer: {
     position: 'absolute',
     right: 10,
-    bottom: 80
+    bottom: 80,
+    gap: 10
+  },
+  likeTitle: {
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   sizeTitle: {
     textAlign: 'center',
