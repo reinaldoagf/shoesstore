@@ -94,7 +94,7 @@ export default function ProductDetailScreen() {
   return (
     <>
     <StatusBar backgroundColor={currentProduct.color} />
-    <SafeAreaView style={{flex: 1, backgroundColor: currentProduct.color, paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0  }}>
+    <SafeAreaView style={{flex: 1, backgroundColor: currentProduct.color  }}>
       <LinearGradient
         // Background Linear Gradient
         style={styles.container}
