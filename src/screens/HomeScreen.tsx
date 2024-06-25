@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 import { HeroSpace } from '../components/HeroSpace';
 import { SwiperComponent } from '../components/SwiperComponent';
 
@@ -8,6 +8,7 @@ import { SwiperComponent } from '../components/SwiperComponent';
 export default function HomeScreen() {
 
   return (<>
+    <StatusBar backgroundColor={"#fff"} />
     <SafeAreaView style={{flex: 1, backgroundColor: "#fff"}}>
     <View style={[styles.container]}>
       <View style={styles.header}>

@@ -1,6 +1,6 @@
 // FavsScreen.tsx
 import React from 'react';
-import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, SafeAreaView, StatusBar } from 'react-native';
 import { useProductStore } from '../store/productStore';
 import { TabBarIcon } from '../components/TabBarIcon';
 
@@ -51,6 +51,7 @@ export default function FavsScreen() {
   };
 
   return (<>
+    <StatusBar backgroundColor={"#fff"} />
     <SafeAreaView style={{ flex: 1, backgroundColor: "#fff" }}>
       <View style={styles.container}>
         <Text style={styles.title}>Favoritos.</Text>
